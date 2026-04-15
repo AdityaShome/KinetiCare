@@ -1,4 +1,4 @@
-# 🧬 KinetiCare Health AI (IIT-BHU)
+# 🧬 KinetiCare Health AI
 **Award-Winning Multimodal Clinical Decision Support & Zero-UI Diagnostics**
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-black?logo=next.js)](https://nextjs.org/)

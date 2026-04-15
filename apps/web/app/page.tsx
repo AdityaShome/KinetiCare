@@ -195,20 +195,23 @@ export default function Home() {
     Object.values(serviceStatus).every((s) => s.ok);
 
   return (
-    <div style={{ background: "#FAFBFC", color: "#111827", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div className="landing-shell" style={{ background: "linear-gradient(180deg, #f6fbff 0%, #f8f4ff 45%, #fff8f0 100%)", color: "#111827", fontFamily: "'Sora', 'Poppins', 'Avenir Next', sans-serif", position: "relative", overflow: "hidden" }}>
+      <div className="ambient ambient-one" />
+      <div className="ambient ambient-two" />
+      <div className="ambient ambient-three" />
 
       {/* ══════════════════════════════════════════
           NAV
       ══════════════════════════════════════════ */}
-      <nav style={{
+      <nav className="top-nav" style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        background: "rgba(250, 251, 252, 0.88)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        borderBottom: "1px solid rgba(0,0,0,0.06)",
+        background: "linear-gradient(90deg, rgba(255,255,255,0.72) 0%, rgba(240,248,255,0.7) 50%, rgba(255,244,237,0.72) 100%)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(14, 58, 84, 0.08)",
         padding: "0 48px",
       }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
+        <div className="top-nav-inner" style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
           {/* Wordmark */}
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             {/* Custom geometric mark — no AI emoji */}
@@ -224,7 +227,7 @@ export default function Home() {
             </span>
           </div>
           {/* Links */}
-          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+          <div className="nav-links" style={{ display: "flex", gap: 4, alignItems: "center" }}>
             {[
               { href: "#pillars", l: "AI Pillars" },
               { href: "#how", l: "How It Works" },
@@ -248,8 +251,8 @@ export default function Home() {
             ))}
           </div>
           {/* CTA */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "#F3F4F6", borderRadius: 99, border: "1px solid #E5E7EB" }}>
+          <div className="nav-cta" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 14px", background: "rgba(255,255,255,0.7)", borderRadius: 99, border: "1px solid rgba(15,76,92,0.14)" }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: allOk ? "#22C55E" : "#94A3B8", boxShadow: allOk ? "0 0 6px #22C55E80" : "none" }} />
               <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#6B7280", letterSpacing: "0.04em" }}>
                 {allOk ? "All Systems Live" : "Checking…"}
@@ -257,7 +260,7 @@ export default function Home() {
             </div>
             <Link href="/daily-checkup" style={{
               padding: "10px 22px",
-              background: "#0F4C5C",
+              background: "linear-gradient(130deg, #0f4c5c 0%, #0f6c8a 60%, #2579c7 100%)",
               color: "#fff",
               textDecoration: "none",
               borderRadius: 99,
@@ -265,10 +268,10 @@ export default function Home() {
               fontWeight: 600,
               display: "flex", alignItems: "center", gap: 8,
               transition: "all 0.25s",
-              boxShadow: "0 4px 14px rgba(15,76,92,0.25)",
+              boxShadow: "0 10px 24px rgba(37,121,199,0.22)",
             }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15,76,92,0.35)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 14px rgba(15,76,92,0.25)"; }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03) translateY(-1px)"; e.currentTarget.style.boxShadow = "0 14px 30px rgba(37,121,199,0.33)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 10px 24px rgba(37,121,199,0.22)"; }}
             >
               Begin Checkup <ArrowRight size={14} />
             </Link>
@@ -279,7 +282,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           HERO
       ══════════════════════════════════════════ */}
-      <section style={{
+      <section className="hero-section" style={{
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
@@ -287,13 +290,15 @@ export default function Home() {
         paddingTop: 100,
         maxWidth: 1280,
         margin: "0 auto",
+        position: "relative",
+        zIndex: 2,
       }}>
         {/* Left text */}
-        <div style={{ flex: "0 0 52%", paddingRight: 64 }}>
+        <div className="hero-copy" style={{ flex: "0 0 52%", paddingRight: 64 }}>
           <div style={{ overflow: "hidden" }}>
             <p style={{
               fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.18em",
-              color: "#0F4C5C", textTransform: "uppercase",
+              color: "#0c5b73", textTransform: "uppercase",
               opacity: 1, transform: "translateY(0)",
               transition: "all 0.8s cubic-bezier(0.22,1,0.36,1) 0ms",
               marginBottom: 24,
@@ -306,17 +311,17 @@ export default function Home() {
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1.1,
-            color: "#0A1628",
+            color: "#07152b",
             marginBottom: 28,
             animation: "fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0ms both",
           }}>
             Your Body&apos;s Data,<br />
-            <span style={{ color: "#0F4C5C" }}>Decoded in Minutes.</span>
+            <span style={{ background: "linear-gradient(90deg, #0f4c5c 0%, #186a84 45%, #405fc5 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>Decoded in Minutes.</span>
           </h1>
           <p style={{
             fontSize: "1.1rem",
             lineHeight: 1.75,
-            color: "#4B5563",
+            color: "#3f4b62",
             maxWidth: 460,
             marginBottom: 44,
             animation: "fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 150ms both",
@@ -326,33 +331,34 @@ export default function Home() {
           <div style={{ display: "flex", gap: 14, animation: "fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 300ms both" }}>
             <Link href="/daily-checkup" style={{
               padding: "16px 36px",
-              background: "#0F4C5C",
+              background: "linear-gradient(135deg, #0f4c5c 0%, #156f8d 60%, #2f7fc6 100%)",
               color: "#fff",
               textDecoration: "none",
               borderRadius: 99,
               fontSize: "1rem",
               fontWeight: 700,
               display: "flex", alignItems: "center", gap: 10,
-              boxShadow: "0 4px 20px rgba(15,76,92,0.3)",
+              boxShadow: "0 14px 30px rgba(32,122,176,0.28)",
               transition: "all 0.25s cubic-bezier(0.22,1,0.36,1)",
             }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 10px 32px rgba(15,76,92,0.4)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 20px rgba(15,76,92,0.3)"; }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03) translateY(-1px)"; e.currentTarget.style.boxShadow = "0 18px 34px rgba(32,122,176,0.4)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 14px 30px rgba(32,122,176,0.28)"; }}
             >
               Start Free Checkup <ArrowRight size={16} />
             </Link>
             <Link href="/clinician" style={{
               padding: "16px 36px",
-              border: "1.5px solid #D1D5DB",
-              color: "#374151",
+              border: "1.5px solid rgba(15,76,92,0.25)",
+              color: "#1f3854",
+              background: "rgba(255,255,255,0.72)",
               textDecoration: "none",
               borderRadius: 99,
               fontSize: "1rem",
               fontWeight: 600,
               transition: "all 0.25s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#0F4C5C"; e.currentTarget.style.color = "#0F4C5C"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "#D1D5DB"; e.currentTarget.style.color = "#374151"; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "#0F4C5C"; e.currentTarget.style.color = "#0F4C5C"; e.currentTarget.style.background = "rgba(255,255,255,0.95)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(15,76,92,0.25)"; e.currentTarget.style.color = "#1f3854"; e.currentTarget.style.background = "rgba(255,255,255,0.72)"; }}
             >
               For Clinicians
             </Link>
@@ -362,7 +368,7 @@ export default function Home() {
           <div style={{ display: "flex", gap: 32, marginTop: 56 }}>
             {["Zero Hardware", "100% Private", "Clinician Ready"].map((t) => (
               <div key={t} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0F4C5C" }} />
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0F4C5C", boxShadow: "0 0 8px rgba(15,76,92,0.35)" }} />
                 <span style={{ fontSize: "0.8rem", fontWeight: 500, color: "#6B7280" }}>{t}</span>
               </div>
             ))}
@@ -370,24 +376,26 @@ export default function Home() {
         </div>
 
         {/* Right visual — custom abstract biodata display */}
-        <div ref={heroRef} style={{ flex: "0 0 48%", position: "relative", animation: "slideInRight 1s cubic-bezier(0.22,1,0.36,1) 200ms both" }}>
+        <div className="hero-visual" ref={heroRef} style={{ flex: "0 0 48%", position: "relative", animation: "slideInRight 1s cubic-bezier(0.22,1,0.36,1) 200ms both" }}>
           {/* Glow */}
           <div style={{
-            position: "absolute", inset: -60, background: "radial-gradient(circle at 60% 40%, rgba(15,76,92,0.08) 0%, transparent 70%)",
-            borderRadius: "50%", filter: "blur(40px)", zIndex: 0,
+            position: "absolute", inset: -70, background: "radial-gradient(circle at 35% 30%, rgba(45,132,255,0.16) 0%, rgba(38,194,189,0.12) 35%, rgba(255,135,84,0.08) 65%, transparent 78%)",
+            borderRadius: "50%", filter: "blur(46px)", zIndex: 0, animation: "pulseAura 7s ease-in-out infinite",
           }} />
+          <div style={{ position: "absolute", top: -30, right: -30, width: 170, height: 170, borderRadius: "50%", background: "conic-gradient(from 180deg, rgba(64,95,197,0.2), rgba(58,194,186,0.12), rgba(255,135,84,0.2), rgba(64,95,197,0.2))", filter: "blur(3px)", animation: "spinSlow 14s linear infinite" }} />
           {/* Custom UI panel — not an AI SVG */}
           <div style={{
             position: "relative", zIndex: 1,
-            background: "#fff",
+            background: "linear-gradient(155deg, rgba(255,255,255,0.95) 0%, rgba(246,251,255,0.9) 100%)",
             borderRadius: 28,
-            border: "1px solid rgba(0,0,0,0.07)",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04)",
+            border: "1px solid rgba(30,82,122,0.15)",
+            boxShadow: "0 30px 90px rgba(17, 36, 76, 0.16), 0 10px 28px rgba(22, 95, 147, 0.12)",
             padding: 36,
             overflow: "hidden",
           }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at top right, rgba(90,126,241,0.08), transparent 38%)" }} />
             {/* Header row */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32, position: "relative", zIndex: 1 }}>
               <div>
                 <p style={{ fontSize: "0.7rem", color: "#9CA3AF", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Clinical Report</p>
                 <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#0A1628", margin: 0 }}>Anubhab R. · Today</h3>
@@ -404,23 +412,24 @@ export default function Home() {
               { l: "Neuromotor", pct: 88, c: "#60A5FA" },
               { l: "AI Synthesis", pct: 86, c: "#A78BFA" },
             ].map(({ l, pct, c }) => (
-              <div key={l} style={{ marginBottom: 18 }}>
+              <div key={l} style={{ marginBottom: 18, position: "relative", zIndex: 1 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 7 }}>
                   <span style={{ fontSize: "0.8rem", color: "#374151", fontWeight: 500 }}>{l}</span>
                   <span style={{ fontSize: "0.8rem", color: "#6B7280", fontFamily: "monospace" }}>{pct}</span>
                 </div>
-                <div style={{ height: 6, background: "#F3F4F6", borderRadius: 99, overflow: "hidden" }}>
+                <div style={{ height: 6, background: "rgba(206,219,233,0.45)", borderRadius: 99, overflow: "hidden" }}>
                   <div style={{
                     height: "100%", width: `${pct}%`,
-                    background: `linear-gradient(90deg, ${c}cc, ${c})`,
+                    background: `linear-gradient(90deg, ${c}aa, ${c})`,
                     borderRadius: 99,
                     transition: "width 1.4s cubic-bezier(0.22,1,0.36,1)",
+                    boxShadow: `0 0 10px ${c}88`,
                   }} />
                 </div>
               </div>
             ))}
             {/* Bottom summary */}
-            <div style={{ marginTop: 28, padding: "18px 20px", background: "#F8FAFC", borderRadius: 16, border: "1px solid #E5E7EB" }}>
+            <div style={{ marginTop: 28, padding: "18px 20px", background: "linear-gradient(145deg, rgba(255,255,255,0.85), rgba(241,246,252,0.84))", borderRadius: 16, border: "1px solid rgba(15,76,92,0.16)", position: "relative", zIndex: 1 }}>
               <p style={{ fontSize: "0.7rem", color: "#9CA3AF", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>AI Clinical Summary</p>
               <p style={{ fontSize: "0.85rem", color: "#374151", lineHeight: 1.6, margin: 0 }}>
                 Biometric patterns indicate a stable physiological baseline with no acute neurological or cardiovascular anomalies detected.
@@ -433,8 +442,9 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           STATS
       ══════════════════════════════════════════ */}
-      <section style={{ background: "#0F4C5C", padding: "72px 48px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1 }}>
+      <section className="stats-section" style={{ background: "linear-gradient(120deg, #0b3747 0%, #0f4c5c 40%, #224785 100%)", padding: "72px 48px", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 15% 10%, rgba(113,227,236,0.2), transparent 35%), radial-gradient(circle at 80% 80%, rgba(132,146,255,0.25), transparent 42%)" }} />
+        <div className="stats-grid" style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, position: "relative" }}>
           {STATS.map(({ value, unit, label }, i) => (
             <Reveal key={label} delay={i * 120}>
               <div style={{ padding: "32px 24px", textAlign: "center" }}>
@@ -451,7 +461,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           PILLARS
       ══════════════════════════════════════════ */}
-      <section id="pillars" style={{ padding: "120px 48px", maxWidth: 1280, margin: "0 auto" }}>
+      <section id="pillars" className="pillars-section" style={{ padding: "120px 48px", maxWidth: 1280, margin: "0 auto", position: "relative" }}>
         <Reveal>
           <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.18em", color: "#0F4C5C", textTransform: "uppercase", marginBottom: 16 }}>
             The Five Pillars
@@ -464,25 +474,26 @@ export default function Home() {
           </p>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginTop: 64 }}>
+        <div className="pillars-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginTop: 64 }}>
           {PILLARS.map(({ href, title, sub, desc, accent, num }, i) => (
             <Reveal key={num} delay={i * 110}>
               <Link href={href} style={{ textDecoration: "none", display: "block" }}>
                 <div
                   style={{
-                    background: "#fff",
+                    background: "linear-gradient(165deg, rgba(255,255,255,0.96), rgba(248,251,255,0.9))",
                     borderRadius: 20,
-                    border: "1px solid #E5E7EB",
+                    border: "1px solid rgba(15,76,92,0.15)",
                     padding: "36px 32px",
                     transition: "all 0.35s cubic-bezier(0.22,1,0.36,1)",
                     cursor: "pointer",
                     position: "relative",
                     overflow: "hidden",
+                    boxShadow: "0 12px 26px rgba(22,52,86,0.08)",
                   }}
                   onMouseEnter={e => {
                     const el = e.currentTarget;
                     el.style.transform = "translateY(-6px)";
-                    el.style.boxShadow = "0 20px 48px rgba(0,0,0,0.1)";
+                    el.style.boxShadow = "0 24px 50px rgba(21,62,104,0.16)";
                     el.style.borderColor = accent;
                   }}
                   onMouseLeave={e => {
@@ -520,7 +531,8 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           HOW IT WORKS
       ══════════════════════════════════════════ */}
-      <section id="how" style={{ background: "#F5F7FA", padding: "120px 48px" }}>
+      <section id="how" className="how-section" style={{ background: "linear-gradient(180deg, #f4f9ff 0%, #f0f7ff 40%, #f6f4ff 100%)", padding: "120px 48px", position: "relative" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(20,85,130,0.08) 1px, transparent 1px)", backgroundSize: "22px 22px", opacity: 0.45 }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.18em", color: "#0F4C5C", textTransform: "uppercase", marginBottom: 16 }}>How It Works</p>
@@ -529,17 +541,17 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, marginTop: 72 }}>
+          <div className="how-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, marginTop: 72, position: "relative" }}>
             {HOW_STEPS.map(({ step, title, desc }, i) => (
               <Reveal key={step} delay={i * 130}>
                 <div style={{
-                  background: "#fff",
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.95), rgba(247,252,255,0.9))",
                   borderRadius: 20,
                   padding: "36px 28px",
-                  border: "1px solid #E5E7EB",
+                  border: "1px solid rgba(15,76,92,0.14)",
                   transition: "all 0.35s cubic-bezier(0.22,1,0.36,1)",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 20px 48px rgba(0,0,0,0.08)"; }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 22px 50px rgba(20,70,110,0.14)"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
                 >
                   <div style={{
@@ -563,7 +575,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           TECHNOLOGY – HORIZONTAL MARQUEE
       ══════════════════════════════════════════ */}
-      <section style={{ padding: "80px 0", overflow: "hidden", borderTop: "1px solid #E5E7EB", borderBottom: "1px solid #E5E7EB" }}>
+      <section className="tech-strip" style={{ padding: "80px 0", overflow: "hidden", borderTop: "1px solid rgba(14,58,84,0.12)", borderBottom: "1px solid rgba(14,58,84,0.12)", background: "linear-gradient(90deg, rgba(238,248,255,0.8), rgba(245,243,255,0.8), rgba(255,247,239,0.8))" }}>
         <div style={{
           display: "flex", gap: 64,
           animation: "marquee 25s linear infinite",
@@ -573,7 +585,7 @@ export default function Home() {
             "CNN-GRU · rPPG", "HuatuoGPT-o1", "LSTM Phenotyping", "MongoDB Atlas", "Next.js 14", "FastAPI", "PyTorch", "Framer Motion", "Conjunctiva Analysis", "Tremor Dynamics", "WebPPG", "IMU Keystroke Fusion",
             "CNN-GRU · rPPG", "HuatuoGPT-o1", "LSTM Phenotyping", "MongoDB Atlas", "Next.js 14", "FastAPI", "PyTorch", "Framer Motion", "Conjunctiva Analysis", "Tremor Dynamics", "WebPPG", "IMU Keystroke Fusion",
           ].map((item, i) => (
-            <span key={i} style={{ fontSize: "0.875rem", fontWeight: 600, color: "#9CA3AF", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            <span key={i} style={{ fontSize: "0.875rem", fontWeight: 600, color: "#6f8092", letterSpacing: "0.06em", textTransform: "uppercase" }}>
               {item}
             </span>
           ))}
@@ -583,7 +595,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           FAQ
       ══════════════════════════════════════════ */}
-      <section id="faq" style={{ padding: "120px 48px" }}>
+      <section id="faq" className="faq-section" style={{ padding: "120px 48px", background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(242,248,255,0.5) 100%)" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.18em", color: "#0F4C5C", textTransform: "uppercase", marginBottom: 16 }}>FAQ</p>
@@ -596,13 +608,13 @@ export default function Home() {
             {FAQS.map(({ q, a }, i) => (
               <Reveal key={i} delay={i * 80}>
                 <div style={{
-                  background: "#fff",
-                  border: "1px solid #E5E7EB",
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,251,255,0.92))",
+                  border: "1px solid rgba(15,76,92,0.15)",
                   borderRadius: 16,
                   overflow: "hidden",
                   transition: "box-shadow 0.25s",
                 }}
-                onMouseEnter={e => { if (openFaq !== i) e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; }}
+                onMouseEnter={e => { if (openFaq !== i) e.currentTarget.style.boxShadow = "0 12px 26px rgba(18,61,97,0.13)"; }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = ""; }}
                 >
                   <button
@@ -653,16 +665,16 @@ export default function Home() {
       ══════════════════════════════════════════ */}
       <section style={{ padding: "0 48px", paddingBottom: 120 }}>
         <Reveal>
-          <div style={{
+          <div className="cta-banner" style={{
             maxWidth: 1280, margin: "0 auto",
-            background: "linear-gradient(135deg, #0F4C5C 0%, #1a6b7e 100%)",
+            background: "linear-gradient(135deg, #0e3647 0%, #0f4c5c 30%, #276d9e 72%, #2f86c6 100%)",
             borderRadius: 28,
             padding: "80px 80px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: 40,
-            boxShadow: "0 24px 80px rgba(15,76,92,0.25)",
+            boxShadow: "0 28px 80px rgba(24,73,120,0.35)",
             position: "relative",
             overflow: "hidden",
           }}>
@@ -724,8 +736,8 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════ */}
-      <footer style={{ borderTop: "1px solid #E5E7EB", padding: "56px 48px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <footer className="site-footer" style={{ borderTop: "1px solid rgba(14,58,84,0.14)", padding: "56px 48px", background: "linear-gradient(180deg, rgba(247,251,255,0.65), rgba(244,248,255,0.9))" }}>
+        <div className="footer-inner" style={{ maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <svg width="22" height="22" viewBox="0 0 30 30" fill="none">
               <rect x="1" y="9" width="13" height="13" rx="2" stroke="#0F4C5C" strokeWidth="1.5" fill="none" />
@@ -747,6 +759,37 @@ export default function Home() {
 
       {/* Global keyframe animations */}
       <style>{`
+        .ambient {
+          position: absolute;
+          border-radius: 999px;
+          filter: blur(48px);
+          pointer-events: none;
+          z-index: 0;
+          animation: drift 14s ease-in-out infinite;
+        }
+        .ambient-one {
+          width: 360px;
+          height: 360px;
+          top: -90px;
+          left: -110px;
+          background: radial-gradient(circle, rgba(70,186,205,0.22), rgba(70,186,205,0));
+        }
+        .ambient-two {
+          width: 420px;
+          height: 420px;
+          top: 18%;
+          right: -130px;
+          background: radial-gradient(circle, rgba(109,127,241,0.2), rgba(109,127,241,0));
+          animation-delay: 2s;
+        }
+        .ambient-three {
+          width: 320px;
+          height: 320px;
+          bottom: 8%;
+          left: 18%;
+          background: radial-gradient(circle, rgba(255,150,96,0.18), rgba(255,150,96,0));
+          animation-delay: 4s;
+        }
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(32px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -755,9 +798,46 @@ export default function Home() {
           from { opacity: 0; transform: translateX(40px); }
           to   { opacity: 1; transform: translateX(0); }
         }
+        @keyframes pulseAura {
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.08); opacity: 1; }
+        }
+        @keyframes spinSlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes drift {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(12px, -14px); }
+        }
         @keyframes marquee {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+        @media (max-width: 1120px) {
+          .top-nav { padding: 0 20px !important; }
+          .hero-section { flex-direction: column !important; gap: 42px !important; padding: 112px 20px 56px !important; min-height: auto !important; }
+          .hero-copy, .hero-visual { flex: 1 1 auto !important; width: 100% !important; padding-right: 0 !important; }
+          .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px !important; }
+          .pillars-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+          .how-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+          .cta-banner { flex-direction: column !important; align-items: flex-start !important; padding: 46px 28px !important; }
+          .footer-inner { flex-direction: column !important; gap: 14px !important; align-items: flex-start !important; }
+        }
+        @media (max-width: 760px) {
+          .nav-links { display: none !important; }
+          .nav-cta > div:first-child { display: none !important; }
+          .stats-section { padding: 54px 16px !important; }
+          .stats-grid { grid-template-columns: 1fr !important; }
+          .pillars-section, .how-section, .faq-section { padding: 78px 16px !important; }
+          .pillars-grid, .how-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+          .site-footer { padding: 38px 16px !important; }
+          .tech-strip { padding: 52px 0 !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ambient, .hero-visual * {
+            animation: none !important;
+          }
         }
       `}</style>
     </div>

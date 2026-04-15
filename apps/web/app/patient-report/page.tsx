@@ -15,6 +15,7 @@ export default function PatientReport() {
   const [report, setReport] = useState<any>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem("kinetiCare_latestReport");
@@ -55,6 +56,21 @@ export default function PatientReport() {
     if (score < 0.4) return "#22C55E";
     if (score < 0.7) return "#F59E0B";
     return "#E14B4B";
+  };
+
+  const downloadPdf = () => {
+    if (typeof window === "undefined") return;
+    setIsExporting(true);
+    const prevTitle = document.title;
+    const reportTime = report?.timestamp
+      ? new Date(report.timestamp).toISOString().replace(/[:.]/g, "-")
+      : "latest";
+    document.title = `kineticare-report-${reportTime}`;
+    setTimeout(() => {
+      window.print();
+      document.title = prevTitle;
+      setIsExporting(false);
+    }, 100);
   };
 
   if (loading) {
@@ -133,8 +149,15 @@ export default function PatientReport() {
               HuatuoGPT-o1 Clinical Orchestrator <span style={{ color: "#D1D5DB", margin: "0 8px" }}>|</span> <strong style={{ color: "#4B5563" }}>{new Date(report.timestamp).toLocaleString()}</strong>
             </p>
           </div>
-          <div style={{ display: "flex", gap: 16, marginTop: 16 }}>
-            <button style={{ padding: "12px", background: "#fff", borderRadius: 16, border: "1px solid #E5E7EB", color: "#6B7280", cursor: "pointer", transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = "#0F4C5C"} onMouseLeave={e => e.currentTarget.style.borderColor = "#E5E7EB"}>
+          <div className="no-print" style={{ display: "flex", gap: 16, marginTop: 16 }}>
+            <button
+              onClick={downloadPdf}
+              disabled={isExporting}
+              title="Download PDF"
+              style={{ padding: "12px", background: "#fff", borderRadius: 16, border: "1px solid #E5E7EB", color: "#6B7280", cursor: isExporting ? "not-allowed" : "pointer", transition: "border-color 0.2s", opacity: isExporting ? 0.7 : 1 }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "#0F4C5C"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "#E5E7EB"}
+            >
               <Download size={20} />
             </button>
             <button onClick={() => router.push("/")} style={{ padding: "0 24px", background: "#fff", borderRadius: 16, border: "1px solid #E5E7EB", color: "#0A1628", fontWeight: 700, fontSize: "0.9rem", display: "flex", alignItems: "center", gap: 8, cursor: "pointer", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.borderColor = "#0F4C5C"; e.currentTarget.style.color = "#0F4C5C"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = "#E5E7EB"; e.currentTarget.style.color = "#0A1628"; }}>
@@ -313,6 +336,16 @@ export default function PatientReport() {
         </div>
 
       </div>
+      <style>{`
+        @media print {
+          .no-print {
+            display: none !important;
+          }
+          body {
+            background: #fff !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

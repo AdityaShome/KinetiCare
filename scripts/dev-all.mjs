@@ -117,7 +117,8 @@ const preferredPorts = {
   nervous: parsePort(process.env.NERVOUS_PORT, 8006),
 };
 
-const devProfile = String(process.env.DEV_PROFILE ?? "lite").toLowerCase();
+const profileArg = process.argv[2];
+const devProfile = String(profileArg ?? process.env.DEV_PROFILE ?? "lite").toLowerCase();
 const backendProfiles = {
   lite: [],
   full: Object.keys(preferredPorts),

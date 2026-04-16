@@ -1,8 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, MapPin } from "lucide-react";
+
+const NearbyMap = dynamic(() => import("./components/NearbyMap"), { ssr: false, loading: () => (
+  <div style={{ height: 520, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(247,251,255,0.6)", borderRadius: 20, border: "1px solid rgba(15,76,92,0.12)" }}>
+    <div style={{ textAlign: "center" }}>
+      <div style={{ fontSize: "2rem", marginBottom: 12 }}>🗺️</div>
+      <p style={{ color: "#9CA3AF", fontSize: "0.9rem" }}>Loading map…</p>
+    </div>
+  </div>
+) });
 
 // ─────────────────────────────────────────
 //  Types
@@ -231,7 +241,9 @@ export default function Home() {
             {[
               { href: "#pillars", l: "AI Pillars" },
               { href: "#how", l: "How It Works" },
+              { href: "#nearby", l: "Map" },
               { href: "#faq", l: "FAQ" },
+              { href: "/dashboard", l: "Dashboard" },
               { href: "/clinician", l: "Clinicians" },
             ].map(({ href, l }) => (
               <a key={href} href={href} style={{
@@ -398,7 +410,7 @@ export default function Home() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32, position: "relative", zIndex: 1 }}>
               <div>
                 <p style={{ fontSize: "0.7rem", color: "#9CA3AF", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Clinical Report</p>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#0A1628", margin: 0 }}>Anubhab R. · Today</h3>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#0A1628", margin: 0 }}>Aditya Shome · Today</h3>
               </div>
               <div style={{ padding: "6px 14px", background: "rgba(34,197,94,0.08)", borderRadius: 99, border: "1px solid rgba(34,197,94,0.2)" }}>
                 <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#16A34A", letterSpacing: "0.06em" }}>LOW RISK</span>
@@ -657,6 +669,49 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          NEARBY CARE MAP
+      ══════════════════════════════════════════ */}
+      <section id="nearby" style={{ padding: "120px 48px", background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(240,249,255,0.55) 100%)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 56, flexWrap: "wrap", gap: 24 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(15,76,92,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <MapPin size={18} style={{ color: "#0F4C5C" }} />
+                  </div>
+                  <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.18em", color: "#0F4C5C", textTransform: "uppercase" }}>Find Nearby Care</p>
+                </div>
+                <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, letterSpacing: "-0.04em", color: "#0A1628", marginBottom: 16 }}>
+                  From Diagnosis to a Doctor,
+                  <br />
+                  <span style={{ background: "linear-gradient(90deg, #0f4c5c 0%, #186a84 45%, #405fc5 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>In One Platform.</span>
+                </h2>
+                <p style={{ fontSize: "1rem", color: "#6B7280", maxWidth: 480, lineHeight: 1.7 }}>
+                  Once KinetiCare identifies a risk band, connect with verified clinicians and specialists near you — no separate search needed.
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+                {[
+                  { val: "6+", label: "Providers Nearby" },
+                  { val: "0.3km", label: "Closest Clinic" },
+                  { val: "Live", label: "Open Status" },
+                ].map(({ val, label }) => (
+                  <div key={label} style={{ textAlign: "center", padding: "16px 24px", background: "rgba(255,255,255,0.8)", borderRadius: 16, border: "1px solid rgba(15,76,92,0.12)", boxShadow: "0 4px 12px rgba(0,0,0,0.04)" }}>
+                    <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0F4C5C", letterSpacing: "-0.04em" }}>{val}</div>
+                    <div style={{ fontSize: "0.72rem", color: "#9CA3AF", fontWeight: 600, marginTop: 4 }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={150}>
+            <NearbyMap />
+          </Reveal>
         </div>
       </section>
 

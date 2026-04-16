@@ -83,6 +83,12 @@ MONGODB_URI=mongodb://127.0.0.1:27017
 MONGODB_DB_NAME=health_ai
 ```
 
+For `npm run dev:all`, place these values in root `.env.local` so the process manager forwards them to the web app.
+
+Verify MongoDB connectivity at `GET /api/health`:
+- `mongo: "connected"` means the web app can reach MongoDB.
+- `mongo: "disconnected"` includes `mongoError` for troubleshooting.
+
 ### New API endpoints
 
 - `POST /api/prescriptions` creates clinician prescriptions with interaction warnings and lifecycle status.

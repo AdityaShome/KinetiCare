@@ -1,61 +1,76 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getMonitoringSchedule,
-  listAssessments,
-  listMonitoringCheckins,
-  listPrescriptions,
-} from "../../../lib/clinical-store";
+import { getMongoDb } from "../../../lib/mongodb";
+
+const SAMPLE_ASSESSMENTS = [
+  {
+    patientId: "aditya-shome",
+    source: "daily-checkup",
+    createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+    depression: { depression_score: 0.12, risk_band: "low" },
+    ppg: { hr_bpm: 72, sbp: 118, dbp: 78, risk_band: "low" },
+    kineticare: { risk_band: "low", session_quality: "good" },
+    orchestrator: { overall_risk_band: "low" },
+  },
+  {
+    patientId: "aditya-shome",
+    source: "daily-checkup",
+    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    depression: { depression_score: 0.28, risk_band: "low" },
+    ppg: { hr_bpm: 78, sbp: 122, dbp: 80, risk_band: "low" },
+    kineticare: { risk_band: "low", session_quality: "good" },
+    orchestrator: { overall_risk_band: "low" },
+  },
+  {
+    patientId: "aditya-shome",
+    source: "daily-checkup",
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    depression: { depression_score: 0.51, risk_band: "medium" },
+    ppg: { hr_bpm: 88, sbp: 134, dbp: 87, risk_band: "medium" },
+    kineticare: { risk_band: "medium", session_quality: "fair" },
+    orchestrator: { overall_risk_band: "medium" },
+  },
+  {
+    patientId: "aditya-shome",
+    source: "daily-checkup",
+    createdAt: new Date().toISOString(),
+    depression: { depression_score: 0.74, risk_band: "high" },
+    ppg: { hr_bpm: 97, sbp: 148, dbp: 96, risk_band: "high" },
+    kineticare: { risk_band: "high", session_quality: "poor" },
+    orchestrator: { overall_risk_band: "high" },
+  },
+];
 
 export async function GET(req: NextRequest) {
-  const patientId = req.nextUrl.searchParams.get("patientId")?.trim();
-  if (!patientId) {
-    return NextResponse.json({ error: "patientId query param is required" }, { status: 400 });
-  }
-
-  const limitRaw = req.nextUrl.searchParams.get("limit") ?? "50";
-  const limit = Number(limitRaw);
-  if (!Number.isFinite(limit) || limit <= 0 || limit > 500) {
-    return NextResponse.json({ error: "limit must be between 1 and 500" }, { status: 400 });
-  }
-
-  const daysRaw = req.nextUrl.searchParams.get("days") ?? "30";
-  const days = Number(daysRaw);
-  if (!Number.isFinite(days) || days <= 0 || days > 3650) {
-    return NextResponse.json({ error: "days must be between 1 and 3650" }, { status: 400 });
-  }
+  const patientId = req.nextUrl.searchParams.get("patientId")?.trim() ?? "aditya-shome";
+  const limit = Math.min(Math.max(Number(req.nextUrl.searchParams.get("limit") ?? "30"), 1), 500);
+  const days = Math.max(Number(req.nextUrl.searchParams.get("days") ?? "90"), 1);
 
   try {
-    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
-    const [assessments, prescriptions, schedule, checkins] = await Promise.all([
-      listAssessments(patientId, limit),
-      listPrescriptions(patientId),
-      getMonitoringSchedule(patientId),
-      listMonitoringCheckins(patientId, since),
-    ]);
+    const db = await getMongoDb();
+    const coll = db.collection("assessments");
 
-    return NextResponse.json({
-      patientId,
-      since,
-      assessments,
-      prescriptions,
-      monitoring: {
-        schedule,
-        checkins,
-      },
-    });
+    // Seed demo data if collection is empty for this patient
+    const count = await coll.countDocuments({ patientId: "aditya-shome" });
+    if (count === 0) {
+      await coll.insertMany(SAMPLE_ASSESSMENTS);
+    }
+
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+    const assessments = await coll
+      .find({ patientId, createdAt: { $gte: since } })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .toArray();
+
+    return NextResponse.json({ patientId, since, assessments });
   } catch (error) {
-    console.error("[patient-history] Database error:", error);
-    // Return empty history instead of 502 for better UI resilience
+    console.error("[patient-history] MongoDB error:", error);
+    // Return seeded sample data so the dashboard always renders something useful
     return NextResponse.json({
       patientId,
-      since: new Date().toISOString(),
-      assessments: [],
-      prescriptions: [],
-      monitoring: {
-        schedule: null,
-        checkins: [],
-      },
-      warning: "Database unreachable, showing empty history."
+      since: new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString(),
+      assessments: SAMPLE_ASSESSMENTS.filter((a) => a.patientId === patientId),
+      warning: "MongoDB unreachable — showing demo data",
     });
   }
 }

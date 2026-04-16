@@ -17,7 +17,7 @@ def _ensure_dirs() -> None:
 
 def build_depression_model() -> None:
     rng = np.random.default_rng(42)
-    n = 2000
+    n = 500
 
     text_signal = rng.uniform(0.0, 1.0, n)
     audio_signal = rng.uniform(0.0, 1.0, n)
@@ -29,14 +29,14 @@ def build_depression_model() -> None:
     y = (0.55 * text_signal) + (0.2 * audio_signal) + (0.2 * video_signal) + (0.05 * (1.0 - spoof_flag))
     y = np.clip(y + rng.normal(0, 0.03, n), 0.0, 1.0)
 
-    model = RandomForestRegressor(n_estimators=240, random_state=42)
+    model = RandomForestRegressor(n_estimators=50, random_state=42)
     model.fit(X, y)
     joblib.dump(model, MODELS / "depression" / "depression_score_model.joblib")
 
 
 def build_ppg_model() -> None:
     rng = np.random.default_rng(84)
-    n = 2400
+    n = 500
 
     mean_signal = rng.normal(0.0, 0.18, n)
     std_signal = rng.uniform(0.02, 0.5, n)
@@ -48,14 +48,14 @@ def build_ppg_model() -> None:
     X = np.column_stack([mean_signal, std_signal, max_signal, min_signal, baseline_map, sig_len])
     y = (2.4 * mean_signal) + (0.65 * std_signal) + (0.02 * (sig_len / 100.0)) + rng.normal(0, 0.2, n)
 
-    model = RandomForestRegressor(n_estimators=260, random_state=84)
+    model = RandomForestRegressor(n_estimators=50, random_state=84)
     model.fit(X, y)
     joblib.dump(model, MODELS / "ppg" / "ppg_delta_model.joblib")
 
 
 def build_kineticare_model() -> None:
     rng = np.random.default_rng(126)
-    n = 2200
+    n = 500
 
     dwell_mean = rng.uniform(60, 240, n)
     dwell_std = rng.uniform(5, 90, n)
@@ -71,17 +71,20 @@ def build_kineticare_model() -> None:
     y[medium_mask] = 1
     y[high_mask] = 2
 
-    model = RandomForestClassifier(n_estimators=300, random_state=126)
+    model = RandomForestClassifier(n_estimators=50, random_state=126)
     model.fit(X, y)
     joblib.dump(model, MODELS / "kineticare" / "kineticare_risk_model.joblib")
 
 
 def main() -> None:
     _ensure_dirs()
+    print("[1/3] Building depression model...")
     build_depression_model()
+    print("[2/3] Building PPG model...")
     build_ppg_model()
+    print("[3/3] Building KinetiCare model...")
     build_kineticare_model()
-    print("Prepared local model artifacts in ./models")
+    print("✅ All model artifacts prepared in ./models")
 
 
 if __name__ == "__main__":

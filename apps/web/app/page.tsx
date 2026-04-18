@@ -19,6 +19,10 @@ const NearbyMap = dynamic(() => import("./components/NearbyMap"), { ssr: false, 
 // ─────────────────────────────────────────
 type HealthResponse = Record<string, { ok: boolean; message: string }>;
 
+type StoredAuthUser = {
+  full_name?: string;
+};
+
 // ─────────────────────────────────────────
 //  useScrollReveal hook
 // ─────────────────────────────────────────
@@ -178,7 +182,23 @@ const STATS = [
 export default function Home() {
   const [serviceStatus, setServiceStatus] = useState<HealthResponse>({});
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [signedInUserName, setSignedInUserName] = useState<string | null>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem("kineticare_auth_user");
+      if (!raw) {
+        return;
+      }
+      const parsed = JSON.parse(raw) as StoredAuthUser;
+      if (typeof parsed.full_name === "string" && parsed.full_name.trim()) {
+        setSignedInUserName(parsed.full_name.trim());
+      }
+    } catch {
+      setSignedInUserName(null);
+    }
+  }, []);
 
   // Service health polling
   useEffect(() => {
@@ -243,7 +263,9 @@ export default function Home() {
               { href: "#how", l: "How It Works" },
               { href: "#nearby", l: "Map" },
               { href: "#faq", l: "FAQ" },
+              { href: "/pan-verification", l: "PAN Verify" },
               { href: "/dashboard", l: "Dashboard" },
+              { href: "/govt-aadhaar-dashboard", l: "Govt Fraud Desk" },
               { href: "/clinician", l: "Clinicians" },
             ].map(({ href, l }) => (
               <a key={href} href={href} style={{
@@ -270,6 +292,55 @@ export default function Home() {
                 {allOk ? "All Systems Live" : "Checking…"}
               </span>
             </div>
+            {signedInUserName ? (
+              <div style={{
+                padding: "9px 16px",
+                background: "linear-gradient(130deg, rgba(15,118,110,0.15) 0%, rgba(2,132,199,0.14) 100%)",
+                color: "#0f4c5c",
+                borderRadius: 99,
+                fontSize: "0.83rem",
+                fontWeight: 700,
+                border: "1px solid rgba(15,76,92,0.22)",
+              }}>
+                {signedInUserName}
+              </div>
+            ) : (
+              <>
+                <Link href="/login" style={{
+                  padding: "9px 16px",
+                  background: "rgba(255,255,255,0.88)",
+                  color: "#0f4c5c",
+                  textDecoration: "none",
+                  borderRadius: 99,
+                  fontSize: "0.83rem",
+                  fontWeight: 700,
+                  border: "1px solid rgba(15,76,92,0.2)",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#ffffff"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.88)"; e.currentTarget.style.transform = "translateY(0)"; }}
+                >
+                  Login
+                </Link>
+                <Link href="/signup" style={{
+                  padding: "9px 16px",
+                  background: "linear-gradient(130deg, #0f766e 0%, #0284c7 100%)",
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  borderRadius: 99,
+                  fontSize: "0.83rem",
+                  fontWeight: 700,
+                  border: "1px solid rgba(2,132,199,0.3)",
+                  transition: "all 0.2s",
+                  boxShadow: "0 8px 20px rgba(2,132,199,0.25)",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 10px 24px rgba(2,132,199,0.35)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 20px rgba(2,132,199,0.25)"; }}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
             <Link href="/daily-checkup" style={{
               padding: "10px 22px",
               background: "linear-gradient(130deg, #0f4c5c 0%, #0f6c8a 60%, #2579c7 100%)",

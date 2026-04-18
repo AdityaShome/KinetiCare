@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npm run setup:all && npm --prefix apps/web run build",
     "prepare:models": ".venv/bin/python scripts/prepare_models.py",
-    "dev:all": "node scripts/dev-all.mjs lite",
+    "dev:all": "node scripts/dev-all.mjs claims",
+    "dev:claims": "node scripts/dev-all.mjs claims",
     "dev:full": "node scripts/dev-all.mjs full",
     "dev:web": "npm --prefix apps/web run dev",
     "dev:depression": ".venv/bin/python -m uvicorn depression_service.main:app --app-dir services/depression-service/src --host 0.0.0.0 --port 8001",

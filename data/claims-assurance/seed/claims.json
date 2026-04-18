@@ -1,0 +1,50 @@
+[
+  {
+    "claim_id": "CLM-3001",
+    "patient_id": "PAT-1001",
+    "hospital_id": "HOSP-2001",
+    "scheme_id": "AB-ArK",
+    "diagnosis": "Acute chest pain",
+    "procedure": "ECG and observation",
+    "claim_amount": 8200,
+    "admission_date": "2026-03-12",
+    "discharge_date": "2026-03-13",
+    "document_text": "Emergency admission notes, ECG summary, and discharge summary match the submitted claim.",
+    "supporting_documents": ["admission_note.pdf", "ecg_report.pdf", "discharge_summary.pdf"],
+    "metadata": {
+      "source": "synthetic_seed"
+    },
+    "status": "submitted",
+    "risk_score": 0.0,
+    "risk_band": "low",
+    "fraud_flags": [],
+    "patient_name": "Ananya Rao",
+    "hospital_name": "City Care Hospital",
+    "created_at": "2026-04-17T00:00:00Z",
+    "updated_at": "2026-04-17T00:00:00Z"
+  },
+  {
+    "claim_id": "CLM-3002",
+    "patient_id": "PAT-1002",
+    "hospital_id": "HOSP-2002",
+    "scheme_id": "Yeshasvini",
+    "diagnosis": "Knee arthroscopy",
+    "procedure": "Arthroscopic repair",
+    "claim_amount": 24500,
+    "admission_date": "2026-03-16",
+    "discharge_date": "2026-03-18",
+    "document_text": "Orthopedic notes, procedure sheet, and billing line items align with the requested surgery.",
+    "supporting_documents": ["op_note.pdf", "billing.pdf"],
+    "metadata": {
+      "source": "synthetic_seed"
+    },
+    "status": "submitted",
+    "risk_score": 0.0,
+    "risk_band": "low",
+    "fraud_flags": [],
+    "patient_name": "Suresh Patil",
+    "hospital_name": "Sri Lakshmi Surgical Centre",
+    "created_at": "2026-04-17T00:00:00Z",
+    "updated_at": "2026-04-17T00:00:00Z"
+  }
+]

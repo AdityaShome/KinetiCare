@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BeneficiaryVerificationRequest",
+  "type": "object",
+  "required": ["full_name", "date_of_birth", "address"],
+  "properties": {
+    "patient_id": { "type": ["string", "null"] },
+    "full_name": { "type": "string" },
+    "date_of_birth": { "type": "string" },
+    "address": { "type": "string" },
+    "government_id": { "type": ["string", "null"] },
+    "scheme_member_id": { "type": ["string", "null"] },
+    "scheme_id": { "type": ["string", "null"], "enum": ["AB-ArK", "Yeshasvini", null] },
+    "city": { "type": ["string", "null"] },
+    "state": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

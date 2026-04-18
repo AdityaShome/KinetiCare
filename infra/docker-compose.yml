@@ -9,6 +9,16 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  assurance-service:
+    image: python:3.12-slim
+    working_dir: /app
+    volumes:
+      - ../services/claims-service/src:/app
+      - ../requirements-backend.txt:/tmp/requirements.txt
+    command: sh -c "pip install -r /tmp/requirements.txt && uvicorn claims_service.main:app --host 0.0.0.0 --port 8010"
+    ports:
+      - "8010:8010"
+
   depression-service:
     image: python:3.12-slim
     working_dir: /app

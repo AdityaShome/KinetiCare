@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClaimFeatureRequest",
+  "type": "object",
+  "required": ["claim_id"],
+  "properties": {
+    "claim_id": { "type": "string" }
+  },
+  "additionalProperties": false
+}

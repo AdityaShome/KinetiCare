@@ -109,6 +109,7 @@ async function findFreePort(preferredPort, reservedPorts = new Set()) {
 }
 
 const preferredPorts = {
+  assurance: parsePort(process.env.ASSURANCE_PORT, 8010),
   depression: parsePort(process.env.DEPRESSION_PORT, 8001),
   ppg: parsePort(process.env.PPG_PORT, 8002),
   orchestrator: parsePort(process.env.ORCHESTRATOR_PORT, 8003),
@@ -121,6 +122,7 @@ const profileArg = process.argv[2];
 const devProfile = String(profileArg ?? process.env.DEV_PROFILE ?? "lite").toLowerCase();
 const backendProfiles = {
   lite: [],
+  claims: ["assurance"],
   full: Object.keys(preferredPorts),
 };
 const enabledBackendServices =
@@ -140,6 +142,7 @@ for (const serviceName of enabledBackendServices) {
 
 const webEnv = {
   ...process.env,
+  ASSURANCE_SERVICE_URL: `http://127.0.0.1:${servicePorts.assurance}`,
   DEPRESSION_SERVICE_URL: `http://127.0.0.1:${servicePorts.depression}`,
   PPG_SERVICE_URL: `http://127.0.0.1:${servicePorts.ppg}`,
   ORCHESTRATOR_SERVICE_URL: `http://127.0.0.1:${servicePorts.orchestrator}`,
@@ -149,7 +152,7 @@ const webEnv = {
 };
 
 console.log(
-  `[dev-all] Using ports depression=${servicePorts.depression}, ppg=${servicePorts.ppg}, orchestrator=${servicePorts.orchestrator}, kineticare=${servicePorts.kineticare}, blood=${servicePorts.blood}, nervous=${servicePorts.nervous}`,
+  `[dev-all] Using ports assurance=${servicePorts.assurance}, depression=${servicePorts.depression}, ppg=${servicePorts.ppg}, orchestrator=${servicePorts.orchestrator}, kineticare=${servicePorts.kineticare}, blood=${servicePorts.blood}, nervous=${servicePorts.nervous}`,
 );
 console.log(`[dev-all] Using Python executable: ${pythonExe}`);
 console.log(`[dev-all] Profile: ${devProfile} (${enabledBackendServices.length} backend services)`);
@@ -160,6 +163,21 @@ const serviceDefinitions = [
     command: "npm",
     args: ["--prefix", "apps/web", "run", "dev"],
     env: webEnv,
+  },
+  {
+    name: "assurance",
+    command: pythonExe,
+    args: [
+      "-m",
+      "uvicorn",
+      "claims_service.main:app",
+      "--app-dir",
+      "services/claims-service/src",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      String(servicePorts.assurance),
+    ],
   },
   {
     name: "depression",

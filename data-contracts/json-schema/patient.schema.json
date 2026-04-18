@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Patient",
+  "type": "object",
+  "required": [
+    "patient_id",
+    "full_name",
+    "date_of_birth",
+    "gender",
+    "government_id",
+    "scheme_id",
+    "scheme_member_id",
+    "phone_number",
+    "address",
+    "city",
+    "state",
+    "eligibility_status",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "patient_id": { "type": "string" },
+    "full_name": { "type": "string" },
+    "date_of_birth": { "type": "string" },
+    "gender": { "type": "string" },
+    "government_id": { "type": "string" },
+    "scheme_id": { "type": "string", "enum": ["AB-ArK", "Yeshasvini"] },
+    "scheme_member_id": { "type": "string" },
+    "phone_number": { "type": "string" },
+    "address": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "type": "string" },
+    "eligibility_status": { "type": "string", "enum": ["eligible", "pending", "blocked"] },
+    "metadata": { "type": "object" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

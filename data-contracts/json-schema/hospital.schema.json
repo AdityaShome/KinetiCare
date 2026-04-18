@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hospital",
+  "type": "object",
+  "required": [
+    "hospital_id",
+    "name",
+    "scheme_partners",
+    "city",
+    "state",
+    "empanelment_status",
+    "specialties"
+  ],
+  "properties": {
+    "hospital_id": { "type": "string" },
+    "name": { "type": "string" },
+    "scheme_partners": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["AB-ArK", "Yeshasvini"] }
+    },
+    "city": { "type": "string" },
+    "state": { "type": "string" },
+    "empanelment_status": { "type": "string", "enum": ["active", "suspended", "inactive"] },
+    "specialties": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "type": "object" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

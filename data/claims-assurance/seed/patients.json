@@ -1,0 +1,56 @@
+[
+  {
+    "patient_id": "PAT-1001",
+    "full_name": "Ananya Rao",
+    "date_of_birth": "1985-06-14",
+    "gender": "female",
+    "government_id": "KA-ARK-1001",
+    "scheme_id": "AB-ArK",
+    "scheme_member_id": "ARK-1001",
+    "phone_number": "9876500001",
+    "address": "12 MG Road",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "eligibility_status": "eligible",
+    "metadata": {
+      "source": "synthetic_seed",
+      "identity_verified": true
+    }
+  },
+  {
+    "patient_id": "PAT-1002",
+    "full_name": "Suresh Patil",
+    "date_of_birth": "1979-09-23",
+    "gender": "male",
+    "government_id": "KA-YES-1002",
+    "scheme_id": "Yeshasvini",
+    "scheme_member_id": "YES-1002",
+    "phone_number": "9876500002",
+    "address": "4 Residency Road",
+    "city": "Mysuru",
+    "state": "Karnataka",
+    "eligibility_status": "eligible",
+    "metadata": {
+      "source": "synthetic_seed",
+      "identity_verified": true
+    }
+  },
+  {
+    "patient_id": "PAT-1003",
+    "full_name": "Meera Iyer",
+    "date_of_birth": "1991-02-10",
+    "gender": "female",
+    "government_id": "TN-ARK-1003",
+    "scheme_id": "AB-ArK",
+    "scheme_member_id": "ARK-1003",
+    "phone_number": "9876500003",
+    "address": "18 Anna Salai",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "eligibility_status": "eligible",
+    "metadata": {
+      "source": "synthetic_seed",
+      "identity_verified": true
+    }
+  }
+]

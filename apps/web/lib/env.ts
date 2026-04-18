@@ -1,4 +1,4 @@
-type ServiceKey = "web" | "depression" | "ppg" | "orchestrator" | "kineticare" | "blood" | "nervous";
+type ServiceKey = "web" | "depression" | "ppg" | "orchestrator" | "kineticare" | "blood" | "nervous" | "claims";
 
 type ServiceMap = Record<ServiceKey, string>;
 
@@ -15,6 +15,7 @@ const defaults: ServiceMap = {
   kineticare: "http://127.0.0.1:8004",
   blood: "http://127.0.0.1:8005",
   nervous: "http://127.0.0.1:8006",
+  claims: "http://127.0.0.1:8010",
 };
 
 function sanitizeBaseUrl(value: string, fallback: string): string {
@@ -34,6 +35,7 @@ export function getServiceBaseUrls(): ServiceMap {
     kineticare: sanitizeBaseUrl(process.env.KINETICARE_SERVICE_URL ?? "", defaults.kineticare),
     blood: sanitizeBaseUrl(process.env.BLOOD_SERVICE_URL ?? "", defaults.blood),
     nervous: sanitizeBaseUrl(process.env.NERVOUS_SERVICE_URL ?? "", defaults.nervous),
+    claims: sanitizeBaseUrl(process.env.CLAIMS_SERVICE_URL ?? "", defaults.claims),
   };
 }
 

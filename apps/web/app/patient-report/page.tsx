@@ -16,6 +16,11 @@ export default function PatientReport() {
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
+  const [govtVerification, setGovtVerification] = useState<{
+    status: "idle" | "pending" | "accepted" | "denied" | "error";
+    reason?: string;
+    referenceId?: string;
+  }>({ status: "idle" });
 
   useEffect(() => {
     const raw = localStorage.getItem("kinetiCare_latestReport");
@@ -71,6 +76,40 @@ export default function PatientReport() {
       document.title = prevTitle;
       setIsExporting(false);
     }, 100);
+  };
+
+  const sendToGovtVerification = async () => {
+    if (!report) return;
+    setGovtVerification({ status: "pending" });
+
+    try {
+      const response = await fetch("/api/govt-verification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(report),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.message || "Government verification failed");
+      }
+
+      setGovtVerification({
+        status: data.status === "accepted" ? "accepted" : "denied",
+        reason: data.reason,
+        referenceId: data.reference_id,
+      });
+      if (data.status === "denied" && typeof window !== "undefined") {
+        localStorage.setItem("kinetiCare_doctorReviewReport", JSON.stringify(report));
+      }
+    } catch (error) {
+      setGovtVerification({
+        status: "error",
+        reason: error instanceof Error ? error.message : "Government verification failed",
+      });
+    }
   };
 
   if (loading) {
@@ -151,6 +190,44 @@ export default function PatientReport() {
           </div>
           <div className="no-print" style={{ display: "flex", gap: 16, marginTop: 16 }}>
             <button
+              onClick={() => void sendToGovtVerification()}
+              disabled={govtVerification.status === "pending"}
+              style={{
+                padding: "0 24px",
+                background: govtVerification.status === "accepted"
+                  ? "#DCFCE7"
+                  : govtVerification.status === "denied"
+                    ? "#FEE2E2"
+                    : "#0F4C5C",
+                color: govtVerification.status === "accepted"
+                  ? "#166534"
+                  : govtVerification.status === "denied"
+                    ? "#991B1B"
+                    : "#fff",
+                borderRadius: 16,
+                border: govtVerification.status === "idle" || govtVerification.status === "pending"
+                  ? "none"
+                  : "1px solid rgba(0,0,0,0.06)",
+                fontWeight: 700,
+                fontSize: "0.9rem",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                cursor: govtVerification.status === "pending" ? "wait" : "pointer",
+                opacity: govtVerification.status === "pending" ? 0.85 : 1,
+              }}
+            >
+              {govtVerification.status === "pending"
+                ? "Govt verification in progress (15s)"
+                : govtVerification.status === "accepted"
+                  ? "Govt Verification Accepted"
+                  : govtVerification.status === "denied"
+                    ? "Govt Verification Denied"
+                    : govtVerification.status === "error"
+                      ? "Retry Govt Verification"
+                      : "Send to Govt Verification"}
+            </button>
+            <button
               onClick={downloadPdf}
               disabled={isExporting}
               title="Download PDF"
@@ -165,6 +242,85 @@ export default function PatientReport() {
             </button>
           </div>
         </div>
+
+        {govtVerification.status !== "idle" ? (
+          <div
+            className="no-print"
+            style={{
+              background: "#fff",
+              border: "1px solid #E5E7EB",
+              padding: 24,
+              borderRadius: 24,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.03)",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+              <div>
+                <h2 style={{ fontSize: "1rem", fontWeight: 800, color: "#0A1628", margin: "0 0 8px 0" }}>
+                  Government Verification Status
+                </h2>
+                <p style={{ margin: 0, color: "#6B7280", lineHeight: 1.7 }}>
+                  {govtVerification.status === "pending"
+                    ? "The report has been sent to government verification. This automated review completes in about 15 seconds."
+                    : govtVerification.reason}
+                </p>
+              </div>
+              <div
+                style={{
+                  alignSelf: "flex-start",
+                  padding: "6px 12px",
+                  borderRadius: 999,
+                  background:
+                    govtVerification.status === "accepted"
+                      ? "rgba(34,197,94,0.12)"
+                      : govtVerification.status === "denied"
+                        ? "rgba(225,75,75,0.12)"
+                        : govtVerification.status === "error"
+                          ? "rgba(245,158,11,0.12)"
+                          : "rgba(15,76,92,0.12)",
+                  color:
+                    govtVerification.status === "accepted"
+                      ? "#166534"
+                      : govtVerification.status === "denied"
+                        ? "#991B1B"
+                        : govtVerification.status === "error"
+                          ? "#92400E"
+                          : "#0F4C5C",
+                  fontSize: "0.75rem",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {govtVerification.status}
+              </div>
+            </div>
+            {govtVerification.referenceId ? (
+              <div style={{ marginTop: 14, fontFamily: "monospace", fontSize: "0.8rem", color: "#4B5563" }}>
+                Reference ID: {govtVerification.referenceId}
+              </div>
+            ) : null}
+            {govtVerification.status === "denied" ? (
+              <div style={{ marginTop: 18 }}>
+                <button
+                  type="button"
+                  onClick={() => router.push("/local-doctor-verification")}
+                  style={{
+                    padding: "12px 18px",
+                    borderRadius: 14,
+                    border: "none",
+                    background: "linear-gradient(135deg, #0f766e 0%, #0284c7 100%)",
+                    color: "#fff",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  Start Local Doctor Verification
+                </button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* AI Orchestrator Summary */}
         <motion.div 

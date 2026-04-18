@@ -63,7 +63,39 @@ export const monitoringCheckinSchema = z.object({
   notes: z.string().max(3000).optional(),
 });
 
+export const claimsDocumentSchema = z.object({
+  filename: z.string().min(1).max(260),
+  mimeType: z.string().min(1).max(120),
+  dataUrl: z.string().min(100),
+  deviceId: z.string().min(1).max(120).optional(),
+  timestamp: z.string().min(1).max(80).optional(),
+  gps: z.object({
+    lat: z.number().min(-90).max(90),
+    lon: z.number().min(-180).max(180),
+  }).optional(),
+});
+
+export const claimsAssuranceSchema = z.object({
+  patientId: z.string().min(1),
+  hospitalId: z.string().min(1),
+  schemeId: z.string().min(1),
+  digilockerConsent: z.boolean().default(false),
+  digilockerDocumentType: z.enum(["aadhaar", "abha", "insurance_card"]).default("aadhaar"),
+  digilockerDocumentId: z.string().min(4).max(64).optional(),
+  claimAmount: z.number().positive(),
+  admissionDate: z.string().min(1),
+  dischargeDate: z.string().min(1).optional(),
+  typedName: z.string().min(1).max(200),
+  typedDob: z.string().min(1).max(40),
+  typedAddress: z.string().min(1).max(300),
+  diagnosis: z.string().min(1).max(200).default("General inpatient review"),
+  procedure: z.string().min(1).max(200).default("Document and fraud screening"),
+  documentText: z.string().min(1).max(5000).default("Uploaded claim evidence and intake details."),
+  supportingDocuments: z.array(claimsDocumentSchema).max(4).default([]),
+});
+
 export type RunCheckInput = z.infer<typeof runCheckSchema>;
 export type PrescriptionCreateInput = z.infer<typeof prescriptionCreateSchema>;
 export type MonitoringScheduleInput = z.infer<typeof monitoringScheduleSchema>;
 export type MonitoringCheckinInput = z.infer<typeof monitoringCheckinSchema>;
+export type ClaimsAssuranceInput = z.infer<typeof claimsAssuranceSchema>;

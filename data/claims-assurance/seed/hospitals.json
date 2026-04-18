@@ -1,0 +1,41 @@
+[
+  {
+    "hospital_id": "HOSP-2001",
+    "name": "City Care Hospital",
+    "scheme_partners": ["AB-ArK", "Yeshasvini"],
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "empanelment_status": "active",
+    "specialties": ["cardiology", "orthopedics", "general_medicine"],
+    "metadata": {
+      "source": "synthetic_seed",
+      "type": "multi_specialty"
+    }
+  },
+  {
+    "hospital_id": "HOSP-2002",
+    "name": "Sri Lakshmi Surgical Centre",
+    "scheme_partners": ["Yeshasvini"],
+    "city": "Mysuru",
+    "state": "Karnataka",
+    "empanelment_status": "active",
+    "specialties": ["general_surgery", "gynecology"],
+    "metadata": {
+      "source": "synthetic_seed",
+      "type": "surgical_centre"
+    }
+  },
+  {
+    "hospital_id": "HOSP-2003",
+    "name": "Metro Public Hospital",
+    "scheme_partners": ["AB-ArK"],
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "empanelment_status": "active",
+    "specialties": ["medicine", "emergency", "pediatrics"],
+    "metadata": {
+      "source": "synthetic_seed",
+      "type": "public_hospital"
+    }
+  }
+]

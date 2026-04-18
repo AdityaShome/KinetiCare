@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BeneficiaryVerificationResponse",
+  "type": "object",
+  "required": ["decision", "confidence_score", "match_breakdown", "signals", "reasons"],
+  "properties": {
+    "patient_id": { "type": ["string", "null"] },
+    "decision": { "type": "string", "enum": ["approved", "review", "rejected"] },
+    "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "matched_patient_id": { "type": ["string", "null"] },
+    "matched_patient_name": { "type": ["string", "null"] },
+    "matched_scheme_id": { "type": ["string", "null"], "enum": ["AB-ArK", "Yeshasvini", null] },
+    "match_breakdown": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "signals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}
